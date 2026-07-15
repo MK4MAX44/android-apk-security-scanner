@@ -25,6 +25,7 @@ def main(argv: list[str] | None = None) -> int:
                    help="DEX 코드 분석을 생략하고 매니페스트·인증서만 분석")
     p.add_argument("--json", action="store_true", help="JSON으로 출력")
     p.add_argument("--markdown", "--md", action="store_true", help="마크다운으로 출력")
+    p.add_argument("--html", action="store_true", help="HTML 대시보드로 출력 (브라우저에서 열기)")
     p.add_argument("-o", "--output", help="결과를 파일로 저장 (미지정 시 표준출력)")
     p.add_argument("--no-color", action="store_true", help="터미널 색상 끄기")
     args = p.parse_args(argv)
@@ -43,6 +44,8 @@ def main(argv: list[str] | None = None) -> int:
         out = report.to_json(result)
     elif args.markdown:
         out = report.to_markdown(result)
+    elif args.html:
+        out = report.to_html(result)
     else:
         out = report.to_text(result, color=not args.no_color and not args.output)
 

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>apkscan · InsecureBankv2</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    margin: 0; padding: 2rem 1rem; background: #f6f7f9; color: #111827;
+    line-height: 1.5; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #0f1115; color: #e5e7eb; }
+    .card, .head, .urls { background: #1a1d24 !important; }
+    pre.detail { background: #0f1115 !important; }
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  .head { background: #fff; border-radius: 16px; padding: 1.5rem 1.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08); margin-bottom: 1.5rem;
+    display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; }
+  h1 { margin: 0 0 .3rem; font-size: 1.5rem; }
+  .meta { font-size: .85rem; color: #6b7280; }
+  .meta code { color: inherit; }
+  .gauge { text-align: center; }
+  .gauge .num { font-size: 2.6rem; font-weight: 800; color: #dc2626; line-height: 1; }
+  .gauge .lbl { font-size: .75rem; color: #6b7280; }
+  .chips { margin: .75rem 0 0; }
+  .chip { display: inline-block; font-size: .75rem; font-weight: 700; color: #fff;
+    background: var(--c); border-radius: 999px; padding: .2rem .6rem; margin: 0 .35rem .35rem 0; }
+  h2 { font-size: 1.05rem; margin: 1.5rem .25rem .75rem; }
+  h2 small { color: #6b7280; font-weight: 400; }
+  .card { background: #fff; border-left: 5px solid var(--c); border-radius: 10px;
+    padding: 1rem 1.25rem; margin-bottom: .9rem; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+  .card-head { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+  .sev { color: #fff; font-size: .7rem; font-weight: 700; padding: .15rem .5rem;
+    border-radius: 6px; }
+  .title { font-weight: 700; }
+  .rid { margin-left: auto; font-size: .72rem; color: #6b7280; font-family: monospace; }
+  pre.detail { background: #f3f4f6; border-radius: 8px; padding: .75rem;
+    font-size: .82rem; overflow-x: auto; white-space: pre-wrap; margin: .7rem 0 .4rem; }
+  .rec { margin: .3rem 0; font-size: .85rem; }
+  .owasp { display: inline-block; font-size: .72rem; background: #eef2ff; color: #4338ca;
+    border-radius: 6px; padding: .15rem .5rem; }
+  @media (prefers-color-scheme: dark) { .owasp { background: #312e81; color: #c7d2fe; } }
+  .urls { background: #fff; border-radius: 10px; padding: 1rem 1.25rem 1rem 2rem;
+    font-size: .82rem; }
+  .ok { font-size: 1.1rem; }
+  footer { text-align: center; color: #9ca3af; font-size: .75rem; margin-top: 2rem; }
+</style></head>
+<body><div class="wrap">
+  <div class="head">
+    <div>
+      <h1>InsecureBankv2</h1>
+      <div class="meta">
+        <code>com.android.insecurebankv2</code> · v1.0 ·
+        SDK min 15/target 22<br>
+        서명: Common Name: Dinesh Shetty, Organizational Unit: Services, Organization: SI, Locality: Boston, State/Province: MA
+      </div>
+      <div class="chips"><span class="chip" style="--c:#dc2626">HIGH 2</span><span class="chip" style="--c:#d97706">MEDIUM 1</span><span class="chip" style="--c:#2563eb">LOW 2</span></div>
+    </div>
+    <div class="gauge">
+      <div class="num">85</div>
+      <div class="lbl">위험 점수 / 100</div>
+    </div>
+  </div>
+  <h2>발견 사항 <small>(5건)</small></h2>
+  
+      <div class="card" style="--c:#dc2626">
+        <div class="card-head">
+          <span class="sev" style="background:#dc2626">HIGH</span>
+          <span class="title">1. 디버그 모드 활성화 (android:debuggable=true)</span>
+          <span class="rid">MANIFEST-001</span>
+        </div>
+        <pre class="detail">릴리스 빌드에 debuggable=true가 남아있으면 누구나 앱 프로세스에 디버거를 붙여 메모리·변수를 들여다볼 수 있다.</pre>
+        <p class="rec">→ 권고: 릴리스 빌드에서는 debuggable을 false(기본값)로 둘 것.</p>
+        <span class="owasp">M8: 보안 설정 오류</span>
+      </div>
+
+      <div class="card" style="--c:#dc2626">
+        <div class="card-head">
+          <span class="sev" style="background:#dc2626">HIGH</span>
+          <span class="title">2. 위험 API 호출 4종</span>
+          <span class="rid">API-001</span>
+        </div>
+        <pre class="detail">다음 위험 API를 호출하는 코드가 있음:
+  - 명령 실행 (Runtime.exec)
+  - 동적 코드 로딩 (DexClassLoader)
+  - SMS 발송 (SmsManager)
+  - 리플렉션 호출 (Method.invoke)</pre>
+        <p class="rec">→ 권고: 명령 실행·동적 코드 로딩·SMS 발송은 정당한 사유가 있는지 확인. 악성 앱의 흔한 행위.</p>
+        <span class="owasp">M4: 불충분한 입력/출력 검증</span>
+      </div>
+
+      <div class="card" style="--c:#d97706">
+        <div class="card-head">
+          <span class="sev" style="background:#d97706">MEDIUM</span>
+          <span class="title">3. 위험 권한 5개 사용</span>
+          <span class="rid">PERM-001</span>
+        </div>
+        <pre class="detail">다음 위험 권한을 요청함:
+  - android.permission.READ_CALL_LOG → 통화 기록 열람
+  - android.permission.READ_CONTACTS → 연락처 읽기
+  - android.permission.READ_PHONE_STATE → 단말/통신 상태·식별자 접근
+  - android.permission.SEND_SMS → SMS 발송 (유료 결제/스팸 위험)
+  - android.permission.WRITE_EXTERNAL_STORAGE → 외부 저장소 쓰기</pre>
+        <p class="rec">→ 권고: 앱 기능에 꼭 필요한 권한인지 검토. 특히 SMS/접근성/설치 권한은 악성 앱의 단골 조합.</p>
+        <span class="owasp">M3: 안전하지 않은 인증/인가 (과도한 권한)</span>
+      </div>
+
+      <div class="card" style="--c:#2563eb">
+        <div class="card-head">
+          <span class="sev" style="background:#2563eb">LOW</span>
+          <span class="title">4. 백업 허용 (android:allowBackup=true)</span>
+          <span class="rid">MANIFEST-002</span>
+        </div>
+        <pre class="detail">adb backup 등으로 앱 데이터가 외부로 유출될 수 있다.</pre>
+        <p class="rec">→ 권고: 민감 데이터를 다루면 allowBackup=false 설정.</p>
+        <span class="owasp">M9: 안전하지 않은 데이터 저장</span>
+      </div>
+
+      <div class="card" style="--c:#2563eb">
+        <div class="card-head">
+          <span class="sev" style="background:#2563eb">LOW</span>
+          <span class="title">5. 낮은 targetSdk (22)</span>
+          <span class="rid">SDK-001</span>
+        </div>
+        <pre class="detail">targetSdk=22. 낮으면 구글의 최신 런타임 보안 정책(scoped storage, 권한 강화 등)이 적용되지 않는다.</pre>
+        <p class="rec">→ 권고: targetSdk를 30 이상으로 올릴 것.</p>
+        <span class="owasp">M8: 보안 설정 오류</span>
+      </div>
+  <h2>코드 내 URL <small>(57개 중 상위 30)</small></h2><ul class="urls"><li><code>http://goo.gl/8Rd3yj</code></li><li><code>http://goo.gl/naFqQk</code></li><li><code>http://hostname/?</code></li><li><code>http://plus.google.com/</code></li><li><code>http://schema.org/ActivateAction</code></li><li><code>http://schema.org/ActiveActionStatus</code></li><li><code>http://schema.org/AddAction</code></li><li><code>http://schema.org/BookmarkAction</code></li><li><code>http://schema.org/CommunicateAction</code></li><li><code>http://schema.org/CompletedActionStatus</code></li><li><code>http://schema.org/FailedActionStatus</code></li><li><code>http://schema.org/FilmAction</code></li><li><code>http://schema.org/LikeAction</code></li><li><code>http://schema.org/ListenAction</code></li><li><code>http://schema.org/PhotographAction</code></li><li><code>http://schema.org/ReserveAction</code></li><li><code>http://schema.org/SearchAction</code></li><li><code>http://schema.org/ViewAction</code></li><li><code>http://schema.org/WantAction</code></li><li><code>http://schema.org/WatchAction</code></li><li><code>http://schemas.android.com/apk/lib/com.google.android.gms.plus</code></li><li><code>http://www.google-analytics.com</code></li><li><code>http://www.google.com</code></li><li><code>https://accounts.google.com</code></li><li><code>https://csi.gstatic.com/csi</code></li><li><code>https://googleads.g.doubleclick.net/mads/static/mad/sdk/native/mraid/v2/mraid_app_banner.js</code></li><li><code>https://googleads.g.doubleclick.net/mads/static/mad/sdk/native/mraid/v2/mraid_app_expanded_banner.js</code></li><li><code>https://googleads.g.doubleclick.net/mads/static/mad/sdk/native/mraid/v2/mraid_app_interstitial.js</code></li><li><code>https://googleads.g.doubleclick.net/mads/static/mad/sdk/native/sdk-core-v40.html</code></li><li><code>https://login.live.com</code></li></ul>
+  <footer>apkscan · 안드로이드 APK 정적 분석기 (교육용) · 정적 분석 결과는 참고용입니다</footer>
+</div></body></html>
