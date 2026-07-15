@@ -257,5 +257,5 @@ def to_html(result: AnalysisResult) -> str:
   <h2>발견 사항 <small>({len(result.findings)}건)</small></h2>
   {cards_html}
   {urls_html}
-  <footer>apkscan · 안드로이드 APK 정적 분석기 (교육용) · 정적 분석 결과는 참고용입니다</footer>
+  <footer>apkscan · 안드로이드 APK 정적 분석기 · 정적 분석 결과는 참고용입니다</footer>
 </div></body></html>"""

@@ -18,7 +18,7 @@ from . import report
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(
         prog="apkscan",
-        description="안드로이드 APK 정적 보안 분석기 (교육용)",
+        description="안드로이드 APK 정적 보안 분석기",
     )
     p.add_argument("apk", help="분석할 .apk 파일 경로")
     p.add_argument("--fast", action="store_true",
